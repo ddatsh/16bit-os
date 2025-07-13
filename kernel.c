@@ -11,6 +11,11 @@
 static int cursor_x = 0;
 static int cursor_y = 0;
 
+// 让CPU进入低功耗等待状态
+static inline void halt_cpu() {
+    __asm__ volatile ("hlt");
+}
+
 // 清屏函数 - 使用BIOS中断
 void clear_screen() {
     __asm__ volatile(
@@ -67,9 +72,6 @@ void kernel_main() {
     
     // 无限循环
     while (1) {
-        // 简单的延迟循环
-        for (volatile int i = 0; i < 1000000; i++) {
-            // 空循环
-        }
+	     halt_cpu();// CPU 空闲时进入等待
     }
 } 
